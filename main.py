@@ -16,7 +16,7 @@ from variables import DANGER_COLOR
 
 load_dotenv()
 
-bot = Bot(command_prefix="&", case_insensitive=True, description="Entertainer Bot",)
+bot = Bot(command_prefix="&", case_insensitive=True, description="Trence",)
 
 
 @bot.event
