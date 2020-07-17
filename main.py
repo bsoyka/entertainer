@@ -12,6 +12,7 @@ from eco_module import Economy
 from helpers import generate_embed
 from image_module import ImageManipulation
 from random_module import Random
+from games_module import Games
 from variables import DANGER_COLOR
 
 load_dotenv()
@@ -108,5 +109,6 @@ bot.add_cog(Development(bot))
 bot.add_cog(ImageManipulation(bot))
 bot.add_cog(Random(bot))
 bot.add_cog(Economy(bot))
+bot.add_cog(Games(bot))
 
 bot.run(getenv("BOT_TOKEN"))
