@@ -135,17 +135,17 @@ class Development(Cog, name="Development"):
             value="Server boosters here on Discord! (Includes 25% boost with <@437808476106784770> leveling, attach files, video, and priority speaker permissions)"
         )
         embed.add_field(
-            name=guild.get_role(733745042111594607),
-            inline=False,
-            value="The user with the highest rank on <@437808476106784770> (Includes attach files, video, and priority speaker permissions)"
-        )
-        embed.add_field(
             name=guild.get_role(733543787099586660),
             value="Partners of this server or <@733335759175811073> (<#733539039516295268>, Includes attach files and video permissions)"
         )
         embed.add_field(
             name=guild.get_role(733703623988740129),
             value="Those who've invited 5 others to this server (Includes attach files and video permissions)"
+        )
+        embed.add_field(
+            name=guild.get_role(733745042111594607),
+            inline=False,
+            value="The user with the highest rank on <@437808476106784770> (Includes attach files, video, and priority speaker permissions)"
         )
         embed.add_field(
             name=guild.get_role(733745165298302976),
@@ -159,6 +159,10 @@ class Development(Cog, name="Development"):
         embed.add_field(
             name=guild.get_role(733767816494317679),
             value="Ping role for news about this server (React with :mega: to get this)"
+        )
+        embed.add_field(
+            name=guild.get_role(733786000530210857),
+            value="Access to channels with various GitHub webhooks (React with :computer: to get this)"
         )
 
         await message.edit(embed=embed)
