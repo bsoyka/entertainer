@@ -33,4 +33,4 @@ def is_developer(ctx):
 
 
 def escape_text(text):
-    return str(text).replace("_", "\\_")
+    return str(text).replace("_", "\\_").replace("*", "\\*")
