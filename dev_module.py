@@ -73,8 +73,12 @@ class Development(Cog, name="Development"):
         Says whatever you want as the bot
         """
 
-        await ctx.message.delete()
-        await channel.send(text)
+        try:
+            await ctx.message.delete()
+        except:
+            pass
+        finally:
+            await channel.send(text)
 
     @dev.group(name="setbal")
     async def dev_setbal(self, ctx, user: User, new_balance: int):
