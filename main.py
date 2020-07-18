@@ -2,9 +2,13 @@ from os import getenv
 
 from discord import Activity, ActivityType
 from discord.ext.commands import Bot, when_mentioned_or
-from discord.ext.commands.errors import (BadArgument, CheckFailure,
-                                         CommandNotFound, CommandOnCooldown,
-                                         MissingRequiredArgument)
+from discord.ext.commands.errors import (
+    BadArgument,
+    CheckFailure,
+    CommandNotFound,
+    CommandOnCooldown,
+    MissingRequiredArgument,
+)
 from dotenv import load_dotenv
 from psutil import cpu_percent, virtual_memory
 
