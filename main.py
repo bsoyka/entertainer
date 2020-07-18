@@ -1,28 +1,27 @@
-from os import getenv
-
 from discord import Activity, ActivityType
 from discord.ext.commands import Bot
 from discord.ext.commands.errors import (BadArgument, CheckFailure,
                                          CommandNotFound, CommandOnCooldown,
                                          MissingRequiredArgument)
-from dotenv import load_dotenv
+
+from settings import load_configs, get_env
+from helpers import generate_embed
+from variables import DANGER_COLOR
 
 from dev_module import Development
 from eco_module import Economy
-from helpers import generate_embed
 from image_module import ImageManipulation
 from random_module import Random
 from games_module import Games
-from variables import DANGER_COLOR
 
-load_dotenv()
 
-bot = Bot(command_prefix="&", case_insensitive=True, description="Trence",)
+load_configs()
 
+bot = Bot(command_prefix="&", case_insensitive=True, description="Trence")
 
 @bot.event
 async def on_ready():
-    print("Ready")
+    print("The bot has started succesfully.")
     await bot.change_presence(
         activity=Activity(
             type=ActivityType.playing, name=f"in {len(bot.guilds)} servers"
@@ -59,7 +58,9 @@ async def invite(ctx):
 
 @bot.event
 async def on_command_error(ctx, error):
-    if isinstance(error, BadArgument):
+    if isinstance(error, CommandNotFound):
+        return
+    elif isinstance(error, BadArgument):
         await ctx.send(
             "",
             embed=generate_embed(
@@ -78,8 +79,6 @@ async def on_command_error(ctx, error):
             ),
         )
 
-        return
-    elif isinstance(error, CommandNotFound):
         return
     elif isinstance(error, CommandOnCooldown):
         await ctx.send(
@@ -111,4 +110,4 @@ bot.add_cog(Random(bot))
 bot.add_cog(Economy(bot))
 bot.add_cog(Games(bot))
 
-bot.run(getenv("BOT_TOKEN"))
+bot.run(get_env("BOT_TOKEN"))
