@@ -168,6 +168,10 @@ class Development(Cog, name="Development"):
             name=guild.get_role(733786000530210857),
             value="Access to channels with various GitHub webhooks (React with :computer: to get this)",
         )
+        embed.add_field(
+            name=guild.get_role(734192906512105483),
+            value="Ping role for giveaways (React with :gift: to get this)",
+        )
 
         await message.edit(embed=embed)
 
