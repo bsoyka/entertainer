@@ -47,7 +47,14 @@ class Random(Cog, name="Random entertainment"):
         Says whatever you want with sass
         """
 
-        await ctx.send("", embed=generate_embed(title=text.replace("  "," ").replace(" ", " :clap: ")))
+        await ctx.send(
+            "",
+            embed=generate_embed(
+                title="Text with sass:",
+                description=text.replace("  ", " ").replace(" ", " :clap: "),
+                footer=f"Requested by {ctx.author}",
+            ),
+        )
 
     @command(name="8ball", aliases=["magic8"])
     @cooldown(5, 10)
@@ -70,4 +77,11 @@ class Random(Cog, name="Random entertainment"):
         Says whatever you want, but green
         """
 
-        await ctx.send(f"```css\n{text}\n```")
+        await ctx.send(
+            "",
+            embed=generate_embed(
+                title="Green text:",
+                description=f"```css\n{text}\n```",
+                footer=f"Requested by {ctx.author}",
+            ),
+        )
