@@ -1,4 +1,5 @@
 from os import getenv
+from pathlib import Path
 from random import choice
 
 from discord.ext.commands import BucketType, Cog, command, cooldown
@@ -19,7 +20,9 @@ class Games(Cog):
         """
         custom_question = True if question != "random" else False
         if not custom_question:
-            with open("never_have_I_ever.txt", "r", encoding="utf-8") as file:
+            with open(
+                Path(__file__).parent / "never_have_I_ever.txt", "r", encoding="utf-8"
+            ) as file:
                 question = choice(file.readlines()).replace("Never have I ever ", "")
 
         reactions = self.bot.get_guild(int(getenv("BOT_GUILD_ID"))).emojis
