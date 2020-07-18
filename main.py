@@ -1,28 +1,28 @@
+from os import getenv
+
 from discord import Activity, ActivityType
 from discord.ext.commands import Bot, when_mentioned_or
 from discord.ext.commands.errors import (BadArgument, CheckFailure,
                                          CommandNotFound, CommandOnCooldown,
                                          MissingRequiredArgument)
-
+from dotenv import load_dotenv
 from psutil import cpu_percent, virtual_memory
 
-from settings import load_configs, get_env
 from helpers import escape_text, generate_embed
 from variables import DANGER_COLOR, SUCCESS_COLOR
 
 from dev_module import Development
 from eco_module import Economy
+from games_module import Games
 from image_module import ImageManipulation
 from random_module import Random
-from games_module import Games
 
-
-
-load_configs()
+load_dotenv()
 
 bot = Bot(
     command_prefix=when_mentioned_or("&"), case_insensitive=True, description="Trence",
 )
+
 
 @bot.event
 async def on_ready():
@@ -169,4 +169,4 @@ bot.add_cog(Random(bot))
 bot.add_cog(Economy(bot))
 bot.add_cog(Games(bot))
 
-bot.run(get_env("BOT_TOKEN"))
+bot.run(getenv("BOT_TOKEN"))
