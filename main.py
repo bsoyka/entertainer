@@ -8,12 +8,14 @@ from discord.ext.commands.errors import (BadArgument, CheckFailure,
 from dotenv import load_dotenv
 from psutil import cpu_percent, virtual_memory
 
+from helpers import escape_text, generate_embed
+from variables import DANGER_COLOR, SUCCESS_COLOR
+
 from dev_module import Development
 from eco_module import Economy
-from helpers import escape_text, generate_embed
+from games_module import Games
 from image_module import ImageManipulation
 from random_module import Random
-from variables import DANGER_COLOR, SUCCESS_COLOR
 
 load_dotenv()
 
@@ -114,7 +116,9 @@ async def info(ctx):
 
 @bot.event
 async def on_command_error(ctx, error):
-    if isinstance(error, BadArgument):
+    if isinstance(error, CommandNotFound):
+        return
+    elif isinstance(error, BadArgument):
         await ctx.send(
             "",
             embed=generate_embed(
@@ -133,8 +137,6 @@ async def on_command_error(ctx, error):
             ),
         )
 
-        return
-    elif isinstance(error, CommandNotFound):
         return
     elif isinstance(error, CommandOnCooldown):
         await ctx.send(
@@ -165,5 +167,6 @@ bot.add_cog(Development(bot))
 bot.add_cog(ImageManipulation(bot))
 bot.add_cog(Random(bot))
 bot.add_cog(Economy(bot))
+bot.add_cog(Games(bot))
 
 bot.run(getenv("BOT_TOKEN"))

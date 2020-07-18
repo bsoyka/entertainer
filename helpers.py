@@ -15,9 +15,9 @@ def generate_embed(
     embed = Embed(title=title, description=description, color=color, url=url)
 
     if footer != None:
-        embed.set_footer(text=f"{footer} - Bot by bsoyka")
+        embed.set_footer(text=f"{footer} - Bot by bsoyka and others")
     else:
-        embed.set_footer(text="Bot by bsoyka")
+        embed.set_footer(text="Bot by bsoyka and others")
 
     if image != None:
         embed.set_image(url=image)
