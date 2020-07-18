@@ -47,7 +47,7 @@ class Random(Cog, name="Random entertainment"):
         Says whatever you want with sass
         """
 
-        await ctx.send("", embed=generate_embed(title=text.replace(" ", " :clap: ")))
+        await ctx.send("", embed=generate_embed(title=text.replace("  "," ").replace(" ", " :clap: ")))
 
     @command(name="8ball", aliases=["magic8"])
     @cooldown(5, 10)
