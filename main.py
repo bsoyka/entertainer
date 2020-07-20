@@ -1,7 +1,7 @@
 from os import getenv
 
 from discord import Activity, ActivityType
-from discord.ext.commands import Bot, when_mentioned_or
+from discord.ext.commands import Bot, Cog, when_mentioned_or
 from discord.ext.commands.errors import (
     BadArgument,
     CheckFailure,
@@ -20,6 +20,7 @@ from eco_module import Economy
 from games_module import Games
 from image_module import ImageManipulation
 from random_module import Random
+from status_module import StatusModule
 
 load_dotenv()
 
@@ -40,6 +41,9 @@ async def on_ready():
     await status_channel.send(
         "", embed=generate_embed(title="Bot is ready", color=SUCCESS_COLOR)
     )
+
+    if getenv("STATUSPAGE_API_KEY"):
+        bot.add_cog(StatusModule(bot))
 
     print("Bot is ready")
 
@@ -114,6 +118,11 @@ async def info(ctx):
     embed.add_field(name="Unique members", value=str(len(set(bot.get_all_members()))))
     embed.add_field(name="CPU usage", value=f"{cpu_percent()}%")
     embed.add_field(name="Memory usage", value=f"{virtual_memory().percent}%")
+    embed.add_field(
+        name="Status page",
+        value="[trence.statuspage.io](https://trence.statuspage.io/)",
+        inline=False,
+    )
 
     await ctx.send("", embed=embed)
 
