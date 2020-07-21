@@ -12,7 +12,7 @@ from discord.ext.commands.errors import (
 from dotenv import load_dotenv
 from psutil import cpu_percent, virtual_memory
 
-from helpers import escape_text, generate_embed
+from helpers import escape_text, generate_embed, update_owners
 from variables import DANGER_COLOR, SUCCESS_COLOR
 
 from dev_module import Development
@@ -45,6 +45,9 @@ async def on_ready():
     if getenv("STATUSPAGE_API_KEY"):
         bot.add_cog(StatusModule(bot))
 
+    if getenv("BOT_IN_SERVER_ROLE"):
+        await update_owners(bot)
+
     print("Bot is ready")
 
 
@@ -67,6 +70,9 @@ async def on_guild_join(guild):
     embed.add_field(name="Members", value=str(len(guild.members)))
     await status_channel.send("", embed=embed)
 
+    if getenv("BOT_IN_SERVER_ROLE"):
+        await update_owners(bot)
+
 
 @bot.event
 async def on_guild_remove(guild):
@@ -86,6 +92,18 @@ async def on_guild_remove(guild):
     embed.add_field(name="Owner", value=str(guild.owner))
     embed.add_field(name="Members", value=str(len(guild.members)))
     await status_channel.send("", embed=embed)
+
+    if getenv("BOT_IN_SERVER_ROLE"):
+        await update_owners(bot)
+
+
+@bot.event
+async def on_member_join(member):
+    if not member.guild == bot.get_guild(int(getenv("BOT_GUILD_ID"))):
+        return
+
+    if getenv("BOT_IN_SERVER_ROLE"):
+        await update_owners(bot)
 
 
 @bot.command()

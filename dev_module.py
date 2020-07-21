@@ -1,4 +1,5 @@
 import pathlib
+from json import dump, load
 from os import getenv, system
 from sys import executable
 
@@ -6,7 +7,7 @@ from discord import Message, TextChannel, User
 from discord.ext.commands import Cog, check, group
 
 from database import get_balance, set_balance
-from helpers import generate_embed, is_developer
+from helpers import generate_embed, is_developer, update_owners
 from variables import DANGER_COLOR, SUCCESS_COLOR
 
 
@@ -152,6 +153,11 @@ class Development(Cog, name="Development"):
             value="The user with the highest rank on <@437808476106784770> (Includes attach files, video, and priority speaker permissions)",
         )
         embed.add_field(
+            name=guild.get_role(734948102204817571),
+            inline=False,
+            value="Users who manage a server with at least 3 human members and <@733335759175811073> (Message <@575252669443211264> if you've added the bot to a server you don't own)",
+        )
+        embed.add_field(
             name=guild.get_role(733745165298302976),
             inline=False,
             value="Those who've reached level 10 on <@437808476106784770> (Includes attach files and video permissions)",
@@ -235,3 +241,56 @@ class Development(Cog, name="Development"):
         )
 
         await status.edit(embed=generate_embed(title="Message sent"))
+
+    @dev.group(name="updateowners")
+    async def dev_updateowners(self, ctx):
+        status = await ctx.send(
+            "", embed=generate_embed(title="Updating server owners")
+        )
+        await update_owners(self.bot)
+        await status.edit(embed=generate_embed(title="All done!"))
+
+    @dev.group(name="override")
+    async def dev_override(self, ctx, server_id: str, user: User):
+        with open(pathlib.Path(__file__).parent / "owner_overrides.json") as file:
+            overrides = load(file)
+
+        if server_id in overrides.keys():
+            overrides[server_id].append(user.id)
+        else:
+            overrides[server_id] = [user.id]
+
+        with open(pathlib.Path(__file__).parent / "owner_overrides.json", "w") as file:
+            dump(overrides, file)
+
+        await ctx.send(
+            "", embed=generate_embed(title="Override added! Updating server owners")
+        )
+
+        await update_owners(self.bot)
+
+    @dev.group(name="slowmode", aliases=["slow"])
+    async def dev_slowmode(self, ctx, channel: TextChannel, delay: int = 1):
+        await channel.edit(slowmode_delay=delay)
+        await ctx.send("", embed=generate_embed(title="Slowmode updated"))
+
+    @dev.group(name="check")
+    async def dev_check(self, ctx, server_id: int, user: User):
+        guild = self.bot.get_guild(server_id)
+        member = guild.get_member(user.id)
+
+        if member.guild_permissions.manage_guild:
+            await ctx.send(
+                "",
+                embed=generate_embed(
+                    title=f"{user} has Manage Server permissions in {guild.name}"
+                ),
+            )
+        else:
+            await ctx.send(
+                "",
+                embed=generate_embed(
+                    title=f"{user} does not have Manage Server permissions in {guild.name}",
+                    color=DANGER_COLOR,
+                ),
+            )
