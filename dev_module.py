@@ -4,7 +4,8 @@ from os import getenv, system
 from sys import executable
 
 from discord import Message, TextChannel, User
-from discord.ext.commands import Cog, check, group
+from discord.errors import Forbidden
+from discord.ext.commands import Cog, Greedy, check, group
 
 from database import get_balance, set_balance
 from helpers import generate_embed, is_developer, update_owners
@@ -225,26 +226,41 @@ class Development(Cog, name="Development"):
 
     @dev.group(name="dq")
     async def dev_dq(
-        self, ctx, user: User, giveaway_channel: TextChannel, giveaway_message: int
+        self,
+        ctx,
+        users: Greedy[User],
+        giveaway_channel: TextChannel,
+        giveaway_message: int,
     ):
-        giveaway_msg = await giveaway_channel.fetch_message(giveaway_message)
-        status = await ctx.send(
-            "", embed=generate_embed(title=f"Disqualifying user {user}")
-        )
+        for user in users:
+            giveaway_msg = await giveaway_channel.fetch_message(giveaway_message)
+            status = await ctx.send(
+                "", embed=generate_embed(title=f"Disqualifying user {user}")
+            )
 
-        await giveaway_msg.remove_reaction("🎉", user)
+            await giveaway_msg.remove_reaction("🎉", user)
 
-        await status.edit(embed=generate_embed(title="Removed reaction"))
+            await status.edit(
+                embed=generate_embed(title=f"Removed reaction from user {user}")
+            )
 
-        await user.send(
-            "",
-            embed=generate_embed(
-                title="Disqualified from giveaway",
-                description="You've been disqualified from a giveaway in the [Trence Support server](https://discord.gg/ebDzmnv). Please reach out by messaging <@575252669443211264> if you have any questions.",
-            ),
-        )
+            try:
+                await user.send(
+                    "",
+                    embed=generate_embed(
+                        title="Disqualified from giveaway",
+                        description="You've been disqualified from a giveaway in the [Trence Support server](https://discord.gg/ebDzmnv). Please reach out by messaging <@575252669443211264> if you have any questions.",
+                    ),
+                )
+            except Forbidden:
+                await status.edit(
+                    embed=generate_embed(
+                        title=f"Could not message user {user}", color=DANGER_COLOR
+                    )
+                )
+                continue
 
-        await status.edit(embed=generate_embed(title="Message sent"))
+            await status.edit(embed=generate_embed(title="Message sent"))
 
     @dev.group(name="updateowners")
     async def dev_updateowners(self, ctx):
