@@ -183,6 +183,10 @@ class Development(Cog, name="Development"):
             name=guild.get_role(735011074725773334),
             value="Ping role for polls (React with :thumbsup: to get this)",
         )
+        embed.add_field(
+            name=guild.get_role(735161809375330417),
+            value="Ping role for when <#733521503001509959> is just too quiet (React with :speech_balloon: to get this)",
+        )
 
         await message.edit(embed=embed)
 
