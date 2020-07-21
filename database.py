@@ -34,12 +34,18 @@ def set_balance(user_id: int, new_balance: int):
 
 def get_leaderboard(users: list):
     user_ids = [user.id for user in users]
-    result = engine.execute("SELECT * FROM USERS ORDER BY balance DESC LIMIT 10")
+    result = engine.execute("SELECT * FROM USERS ORDER BY balance DESC")
     final = []
     for user in result:
         if user[0] in user_ids:
             final.append(user)
+            if len(final) == 5:
+                break
     return final
+
+
+def get_global_leaderboard():
+    return engine.execute("SELECT * FROM USERS ORDER BY balance DESC LIMIT 5")
 
 
 class Balances(Base):
