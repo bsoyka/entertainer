@@ -113,7 +113,7 @@ async def help_(ctx):
     embed = generate_embed(title="Trence Help")
     embed.add_field(
         name="General",
-        value="`&help` - Show this message\n`&info` - Show current information about the bot\n`&invite` - Invite the bot to your own server\n`&support` - Join the support server",
+        value="`&help` - Show this message\n`&info` - Show current information about the bot\n`&invite` - Invite the bot to your own server\n`&support` - Join the support server\n`&code` - View the source code",
         inline=False,
     )
     embed.add_field(
@@ -150,6 +150,17 @@ async def support(ctx):
         "https://discord.gg/ebDzmnv",
         embed=generate_embed(
             title="Join the Trence support server with the link above"
+        ),
+    )
+
+
+@bot.command(aliases=["code"])
+async def source(ctx):
+    await ctx.send(
+        "",
+        embed=generate_embed(
+            title="View the bot's source code on GitHub",
+            url="https://github.com/bsoyka/trence",
         ),
     )
 
