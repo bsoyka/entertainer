@@ -14,11 +14,28 @@ class StatusModule(Cog):
     def cog_unload(self):
         self.sender.cancel()
 
-    @loop(minutes=2.5)
+    @loop(minutes=4.6)
     async def sender(self):
+        # Latency
         post(
             url="https://api.statuspage.io/v1/pages/vbwjhz2x7vtk/metrics/6yqxfpwq0209/data",
-            params={"data[timestamp]": int(time()), "data[value]": self.bot.latency * 1000},
+            params={
+                "data[timestamp]": int(time()),
+                "data[value]": self.bot.latency * 1000,
+            },
+            headers={
+                "Content-Type": "application/x-www-form-urlencoded",
+                "Authorization": "OAuth " + getenv("STATUSPAGE_API_KEY"),
+            },
+        )
+
+        # Unique Member Count
+        post(
+            url="https://api.statuspage.io/v1/pages/vbwjhz2x7vtk/metrics/tj6d3q7vfz0v/data",
+            params={
+                "data[timestamp]": int(time()),
+                "data[value]": len(set(self.bot.get_all_members())),
+            },
             headers={
                 "Content-Type": "application/x-www-form-urlencoded",
                 "Authorization": "OAuth " + getenv("STATUSPAGE_API_KEY"),

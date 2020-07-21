@@ -178,3 +178,49 @@ class Development(Cog, name="Development"):
         await ctx.send(
             "", embed=generate_embed(title="Updated message with new role info")
         )
+
+    @dev.group(name="owner")
+    async def dev_owner(self, ctx, user: User):
+        guild_list = [
+            f"{guild.name} ({len([x for x in guild.members if not x.bot])})"
+            for guild in self.bot.guilds
+            if guild.owner == user
+        ]
+
+        await ctx.send(
+            "",
+            embed=generate_embed(
+                title=f"Guilds I'm in owned by {user}",
+                description="\n".join(guild_list),
+            ),
+        )
+
+    @dev.group(name="eval")
+    async def dev_eval(self, ctx, *, expression: str):
+        result = str(eval(expression)).replace(getenv("BOT_TOKEN"), "DISCORD BOT KEY")
+        await ctx.send(
+            "",
+            embed=generate_embed(
+                title="Eval Result", description=f"```\n{result}\n```"
+            ),
+        )
+
+    @dev.group(name="dm")
+    async def dev_dm(self, ctx, user: User, *, message: str):
+        await user.send(
+            "", embed=generate_embed(title="New message", description=message)
+        )
+
+        await ctx.send("", embed=generate_embed(title="Message sent"))
+
+    @dev.group(name="dq")
+    async def dev_dq(self, ctx, user: User):
+        await user.send(
+            "",
+            embed=generate_embed(
+                title="Disqualified from giveaway",
+                description="You've been disqualified from a giveaway in the Trence Support server as you do not meet the requirements. Please reach out via the ModMail (AdminMail) bot if you have any questions.",
+            ),
+        )
+
+        await ctx.send("", embed=generate_embed(title="Message sent"))
