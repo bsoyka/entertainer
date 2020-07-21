@@ -14,7 +14,7 @@ class Economy(Cog):
         self.bot = bot
         self.database = connect("economy.db")
 
-    @command(brief="Check a user's balance", usage="&bal [user]")
+    @command(brief="Check a user's balance", usage="&bal [user]", aliases=["balance", "money", "$"])
     @cooldown(3, 7, BucketType.user)
     async def bal(self, ctx, user: User = None):
         user = user if user else ctx.author
@@ -60,7 +60,7 @@ class Economy(Cog):
 
         await ctx.send("", embed=embed)
 
-    @command(aliases=["lb", "leaderboard"], brief="Show the leaderboard", usage="&top [server|global]")
+    @command(aliases=["lb", "leaderboard", "rich", "richest"], brief="Show the leaderboard", usage="&top [server|global]")
     @cooldown(3, 15, BucketType.channel)
     async def top(self, ctx, mode: str = "server"):
         server_options = ["server", "local", "s", "l"]

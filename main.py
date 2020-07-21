@@ -155,7 +155,7 @@ def get_command_embed(command: str):
     return embed
 
 
-@bot.command(name="help", brief="Show available commands", usage="&help", aliases=["?"])
+@bot.command(name="help", brief="Show available commands", usage="&help", aliases=["?", "commands"])
 async def help_(ctx, *, command: str = None):
     if command:
         await ctx.send("", embed=get_command_embed(command.lower()))
@@ -205,7 +205,7 @@ async def help_(ctx, *, command: str = None):
         await ctx.send("", embed=embed)
 
 
-@bot.command(brief="Invite the bot to your own server", usage="&invite")
+@bot.command(brief="Invite the bot to your own server", usage="&invite", aliases=["addbot", "usebot", "inv"])
 async def invite(ctx):
     invite_link = f"https://discord.com/api/oauth2/authorize?client_id={bot.user.id}&permissions=1077267520&scope=bot"
 
@@ -214,7 +214,7 @@ async def invite(ctx):
     )
 
 
-@bot.command(aliases=["server"], brief="Join the support server", usage="&support")
+@bot.command(aliases=["server", "supportserver"], brief="Join the support server", usage="&support")
 async def support(ctx):
     await ctx.send(
         "https://discord.gg/ebDzmnv",
@@ -224,7 +224,7 @@ async def support(ctx):
     )
 
 
-@bot.command(aliases=["source"], brief="View the source code", usage="&code")
+@bot.command(aliases=["source", "inspect", "github", "repo"], brief="View the source code", usage="&code")
 async def code(ctx):
     await ctx.send(
         "",
@@ -236,7 +236,7 @@ async def code(ctx):
 
 
 @bot.command(
-    aliases=["ping"], brief="Show current information about the bot", usage="&info"
+    aliases=["ping", "latency", "cpu", "memory", "servers", "members", "status"], brief="Show current information about the bot", usage="&info"
 )
 async def info(ctx):
     embed = generate_embed(
