@@ -28,6 +28,8 @@ bot = Bot(
     command_prefix=when_mentioned_or("&"), case_insensitive=True, description="Trence",
 )
 
+bot.remove_command("help")
+
 
 @bot.event
 async def on_ready():
@@ -104,6 +106,33 @@ async def on_member_join(member):
 
     if getenv("BOT_IN_SERVER_ROLE"):
         await update_owners(bot)
+
+
+@bot.command(name="help")
+async def help_(ctx):
+    embed = generate_embed(title="Trence Help")
+    embed.add_field(
+        name="General",
+        value="`&help` - Show this message\n`&info` - Show current information about the bot\n`&invite` - Invite the bot to your own server\n`&support` - Join the support server",
+        inline=False,
+    )
+    embed.add_field(
+        name="Economy",
+        value="`&bal` - Check a user's balance\n`&top` - Show the leaderboard\n`&work` - Earn money by working\n`&beg` - Earn money by begging",
+        inline=False,
+    )
+    embed.add_field(
+        name="Games",
+        value="`&nhie` - Show a random Never Have I Ever question",
+        inline=False,
+    )
+    embed.add_field(
+        name="Random",
+        value="`&circle` - Show a user's avatar as a circle with their color\n`&8ball` - Ask the magic 8 ball a question\n`&clap` - Say something with sass\n`&flip` - Flip a coin\n`&green` - Say something but in green\n`&random` - Pick a random number",
+        inline=False,
+    )
+
+    await ctx.send("", embed=embed)
 
 
 @bot.command()
