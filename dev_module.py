@@ -214,13 +214,24 @@ class Development(Cog, name="Development"):
         await ctx.send("", embed=generate_embed(title="Message sent"))
 
     @dev.group(name="dq")
-    async def dev_dq(self, ctx, user: User):
+    async def dev_dq(
+        self, ctx, user: User, giveaway_channel: TextChannel, giveaway_message: int
+    ):
+        giveaway_msg = await giveaway_channel.fetch_message(giveaway_message)
+        status = await ctx.send(
+            "", embed=generate_embed(title=f"Disqualifying user {user}")
+        )
+
+        await giveaway_msg.remove_reaction("🎉", user)
+
+        await status.edit(embed=generate_embed(title="Removed reaction"))
+
         await user.send(
             "",
             embed=generate_embed(
                 title="Disqualified from giveaway",
-                description="You've been disqualified from a giveaway in the Trence Support server as you do not meet the requirements. Please reach out via the ModMail (AdminMail) bot if you have any questions.",
+                description="You've been disqualified from a giveaway in the [Trence Support server](https://discord.gg/ebDzmnv). Please reach out by messaging <@575252669443211264> if you have any questions.",
             ),
         )
 
-        await ctx.send("", embed=generate_embed(title="Message sent"))
+        await status.edit(embed=generate_embed(title="Message sent"))

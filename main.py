@@ -100,7 +100,7 @@ async def invite(ctx):
 @bot.command(aliases=["server"])
 async def support(ctx):
     await ctx.send(
-        "https://discord.gg/CcRr9Su",
+        "https://discord.gg/ebDzmnv",
         embed=generate_embed(
             title="Join the Trence support server with the link above"
         ),
