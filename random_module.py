@@ -1,6 +1,6 @@
 from random import choice, getrandbits, randint
 
-from discord.ext.commands import BucketType, Cog, command, cooldown
+from discord.ext.commands import BadArgument, BucketType, Cog, command, cooldown
 
 from helpers import generate_embed
 from variables import MAGIC_8_ANSWERS
@@ -29,10 +29,16 @@ class Random(Cog, name="Random entertainment"):
     )
     @cooldown(5, 10, BucketType.user)
     async def random(self, ctx, start: int, end: int):
+        if start > end:
+            raise BadArgument(
+                'Parameter "start" may not be greater than parameter "end"'
+            )
+
         await ctx.send(
             "",
             embed=generate_embed(
-                title="Random number", description=randint(start, end)
+                title=f"Random number between {start} and {end}",
+                description=str(randint(start, end)),
             ),
         )
 
