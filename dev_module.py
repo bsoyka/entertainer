@@ -178,6 +178,10 @@ class Development(Cog, name="Development"):
             name=guild.get_role(734192906512105483),
             value="Ping role for giveaways (React with :gift: to get this)",
         )
+        embed.add_field(
+            name=guild.get_role(735011074725773334),
+            value="Ping role for polls (React with :thumbsup: to get this)",
+        )
 
         await message.edit(embed=embed)
 
