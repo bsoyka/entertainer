@@ -108,12 +108,14 @@ async def on_member_join(member):
     if getenv("BOT_IN_SERVER_ROLE"):
         await update_owners(bot)
 
+
 def command_exists(command: str):
     commands = bot.walk_commands()
     for x in commands:
-        if (x.name == command or command in x.aliases):
+        if x.name == command or command in x.aliases:
             return True
     return False
+
 
 def get_command_brief(command: str):
     commands = bot.walk_commands()
@@ -128,6 +130,7 @@ def get_command_usage(command: str):
     for x in commands:
         if (x.name == command or command in x.aliases) and x.usage:
             return f"`{x.usage}`"
+
 
 def get_command_aliases(command: str):
     commands = bot.walk_commands()
@@ -146,7 +149,7 @@ def get_command_embed(command: str):
 
         if usage:
             embed.add_field(name="Usage", value=usage, inline=False)
-        
+
         if aliases:
             embed.add_field(name="Aliases", value=aliases)
     else:
@@ -155,12 +158,20 @@ def get_command_embed(command: str):
     return embed
 
 
-@bot.command(name="help", brief="Show available commands", usage="&help", aliases=["?", "commands"])
+@bot.command(
+    name="help",
+    brief="Show available commands",
+    usage="&help",
+    aliases=["?", "commands"],
+)
 async def help_(ctx, *, command: str = None):
     if command:
         await ctx.send("", embed=get_command_embed(command.lower()))
     else:
-        embed = generate_embed(title="Trence Help", description="For more information on a command, use `&help <command>`")
+        embed = generate_embed(
+            title="Trence Help",
+            description="For more information on a command, use `&help <command>`",
+        )
         embed.add_field(
             name="General",
             value="\n".join(
@@ -183,12 +194,7 @@ async def help_(ctx, *, command: str = None):
         )
         embed.add_field(
             name="Games",
-            value="\n".join(
-                [
-                    get_command_brief(command)
-                    for command in ["nhie"]
-                ]
-            ),
+            value="\n".join([get_command_brief(command) for command in ["nhie"]]),
             inline=False,
         )
         embed.add_field(
@@ -196,7 +202,14 @@ async def help_(ctx, *, command: str = None):
             value="\n".join(
                 [
                     get_command_brief(command)
-                    for command in ["circle", "8ball", "clap", "flip", "green", "random"]
+                    for command in [
+                        "circle",
+                        "8ball",
+                        "clap",
+                        "flip",
+                        "green",
+                        "random",
+                    ]
                 ]
             ),
             inline=False,
@@ -205,7 +218,11 @@ async def help_(ctx, *, command: str = None):
         await ctx.send("", embed=embed)
 
 
-@bot.command(brief="Invite the bot to your own server", usage="&invite", aliases=["addbot", "usebot", "inv"])
+@bot.command(
+    brief="Invite the bot to your own server",
+    usage="&invite",
+    aliases=["addbot", "usebot", "inv"],
+)
 async def invite(ctx):
     invite_link = f"https://discord.com/api/oauth2/authorize?client_id={bot.user.id}&permissions=1077267520&scope=bot"
 
@@ -214,7 +231,11 @@ async def invite(ctx):
     )
 
 
-@bot.command(aliases=["server", "supportserver"], brief="Join the support server", usage="&support")
+@bot.command(
+    aliases=["server", "supportserver"],
+    brief="Join the support server",
+    usage="&support",
+)
 async def support(ctx):
     await ctx.send(
         "https://discord.gg/ebDzmnv",
@@ -224,7 +245,11 @@ async def support(ctx):
     )
 
 
-@bot.command(aliases=["source", "inspect", "github", "repo"], brief="View the source code", usage="&code")
+@bot.command(
+    aliases=["source", "inspect", "github", "repo"],
+    brief="View the source code",
+    usage="&code",
+)
 async def code(ctx):
     await ctx.send(
         "",
@@ -236,7 +261,9 @@ async def code(ctx):
 
 
 @bot.command(
-    aliases=["ping", "latency", "cpu", "memory", "servers", "members", "status"], brief="Show current information about the bot", usage="&info"
+    aliases=["ping", "latency", "cpu", "memory", "servers", "members", "status"],
+    brief="Show current information about the bot",
+    usage="&info",
 )
 async def info(ctx):
     embed = generate_embed(

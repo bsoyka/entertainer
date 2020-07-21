@@ -40,7 +40,11 @@ class ImageManipulation(Cog, name="Image manipulation"):
 
         return final_buffer
 
-    @command(brief="Show a user's avatar as a circle with their top role color", usage="&circle [user]", aliases=["avatarcircle", "circleavatar", "avatar"])
+    @command(
+        brief="Show a user's avatar as a circle with their top role color",
+        usage="&circle [user]",
+        aliases=["avatarcircle", "circleavatar", "avatar"],
+    )
     @cooldown(3, 15)
     async def circle(self, ctx, *, member: Member = None):
         member = member or ctx.author

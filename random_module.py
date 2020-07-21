@@ -22,7 +22,11 @@ class Random(Cog, name="Random entertainment"):
                 "", embed=generate_embed(title="Coin flip", description="Tails")
             )
 
-    @command(aliases=["rand", "randint"], brief="Pick a random number", usage="&random <start> <end>")
+    @command(
+        aliases=["rand", "randint"],
+        brief="Pick a random number",
+        usage="&random <start> <end>",
+    )
     @cooldown(5, 10, BucketType.user)
     async def random(self, ctx, start: int, end: int):
         await ctx.send(
@@ -44,7 +48,12 @@ class Random(Cog, name="Random entertainment"):
             ),
         )
 
-    @command(name="8ball", aliases=["magic8", "m8"], brief="Ask the magic 8 ball a question", usage="&8ball <question>")
+    @command(
+        name="8ball",
+        aliases=["magic8", "m8"],
+        brief="Ask the magic 8 ball a question",
+        usage="&8ball <question>",
+    )
     @cooldown(5, 10, BucketType.user)
     async def magic8ball(self, ctx, *, question: str):
         await ctx.send(
@@ -54,7 +63,9 @@ class Random(Cog, name="Random entertainment"):
             ),
         )
 
-    @command(aliases=["greentext"], brief="Say something but in green", usage="&green <text>")
+    @command(
+        aliases=["greentext"], brief="Say something but in green", usage="&green <text>"
+    )
     @cooldown(5, 10, BucketType.user)
     async def green(self, ctx, *, text: str):
         await ctx.send(
