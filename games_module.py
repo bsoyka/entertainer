@@ -12,12 +12,9 @@ class Games(Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @command(aliases=["neverhaveIever"])
+    @command(aliases=["neverhaveiever"], brief="Show a Never Have I Ever question", usage="&nhie [question]")
     @cooldown(1, 2.5, BucketType.user)
     async def nhie(self, ctx, *, question="random"):
-        """
-        Never Have I Ever
-        """
         custom_question = True if question != "random" else False
         if not custom_question:
             with open(

@@ -14,13 +14,9 @@ class Economy(Cog):
         self.bot = bot
         self.database = connect("economy.db")
 
-    @command()
+    @command(brief="Check a user's balance", usage="&bal [user]")
     @cooldown(3, 7, BucketType.user)
     async def bal(self, ctx, user: User = None):
-        """
-        Gets a user's balance
-        """
-
         user = user if user else ctx.author
 
         await ctx.send(
@@ -30,13 +26,9 @@ class Economy(Cog):
             ),
         )
 
-    @command()
+    @command(brief="Earn money by working", usage="&work")
     @cooldown(1, 180, BucketType.user)
     async def work(self, ctx):
-        """
-        Works for a random amount of money
-        """
-
         old_balance = get_balance(ctx.author.id)
         earnings = randint(25, 125)
         new_balance = old_balance + earnings
@@ -48,13 +40,9 @@ class Economy(Cog):
 
         await ctx.send("", embed=embed)
 
-    @command()
+    @command(brief="Beg for money", usage="&beg")
     @cooldown(1, 60, BucketType.user)
     async def beg(self, ctx):
-        """
-        Begs for a random amount of money
-        """
-
         old_balance = get_balance(ctx.author.id)
 
         if randint(0, 2):
@@ -72,12 +60,9 @@ class Economy(Cog):
 
         await ctx.send("", embed=embed)
 
-    @command(aliases=["lb", "top"])
+    @command(aliases=["lb", "leaderboard"], brief="Show the leaderboard", usage="&top [server|global]")
     @cooldown(3, 15, BucketType.channel)
-    async def leaderboard(self, ctx, mode: str = "server"):
-        """
-        Gets the economy leaderboard
-        """
+    async def top(self, ctx, mode: str = "server"):
         server_options = ["server", "local", "s", "l"]
         global_options = ["global", "g"]
         all_options = server_options + global_options
